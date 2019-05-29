@@ -24,15 +24,18 @@
 
   <body>
     <main id="main">
+      <br><br>
       <form onsubmit="getRepositories();return false;">
         <input type="text" id="username"><br>
-        <input type="submit">
+        <input type="submit" onClick="getRepositories()">
       </form>
     </main>
     <div class="flexbox-container">
       <div>
         <h3>Repositories</h3>
-        <div id="repositories"></div>
+        <div id="repositories">
+          <ul id="repositories"></ul>
+        </div>
       </div>
       <div>
         <h3>Details</h3>
