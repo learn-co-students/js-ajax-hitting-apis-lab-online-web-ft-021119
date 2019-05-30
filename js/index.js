@@ -10,25 +10,22 @@ function getRepositories() {
   req.send()
 }
 
+// Add a link to each repository that calls a getCommits function on click and, when the request is complete, calls a displayCommits function that fills the details div with a list of commits for that repository.
+
+
 function displayRepositories() {
-  const repos = JSON.parse(this.responseText);
   debugger
-  console.log(repos);
-  const repoList = `<ul>${repos
-    .map(
-      r =>
-        '<li>' +
-        r.name +
-        ' - <a href="#" data-repo="' +
-        r.name +
-        '" onclick="getCommits(this)">Get Commits</a></li>'
-    )
-    .join('')}</ul>`;
+  const repos = JSON.parse(this.responseText);
+  const repoList = repos.map(repo =>
+    `<li>
+        <h3><a href="${repo.url}">${repo.full_name}</a></h3>
+        <h3><a href="${repo.commits_url}">Get Commits</h3>
+    </li>`).join('')
   document.getElementById('repositories').innerHTML = repoList;
 }
 
-
-function getCommits(repo) {
+function getCommits(el) {
+  debugger
   const name = repo.dataset.username
   const repoName = repo.dataset.repository
   const req = new XMLHttpRequest()
@@ -37,11 +34,13 @@ function getCommits(repo) {
   req.send();
 }
 
-function displayRepositories(data) {
-  $('#full_name').html(data.full_name)
-  $('#url').html(data.url)
+function displayCommits(this) {
+  debugger
+  const commits = JSON.parse(this.responseText);
+  const commitList = commits.map(commit =>
+    `<li>
+        <h3><a href="${repo.url}">${repo.full_name}</a></h3>
+        <h3><a href="${repo.commits_url}">Get Commits</h3>
+    </li>`).join('')
+  document.getElementById('repositories').innerHTML = repoList;
 }
-
-// function getCommits() {
-//   getRepositories().
-// }
