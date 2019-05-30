@@ -1,14 +1,12 @@
 // your code here
 const githubAPI = "https://api.github.com"
 
-// attach the getUser function to a button click
-$('button').on('click', getUsername)
 
 function getRepositories() {
-  const username = document.querySelector('username').value
+  const username = document.querySelector('input#username').value
   const req = new XMLHttpRequest()
   req.addEventListener('load', displayRepositories)
-  req.open('GET', `${github}/users/${username}/repos`)
+  req.open('GET', `${githubAPI}/users/${username}/repos`)
   req.send()
 }
 
