@@ -1,6 +1,8 @@
 // your code here
-let github = "https://api.github.com"
+const githubAPI = "https://api.github.com"
 
+// attach the getUser function to a button click
+$('button').on('click', getUsername)
 
 function getRepositories() {
   const username = document.querySelector('username').value
@@ -36,21 +38,12 @@ function getCommits(repo) {
   req.open('GET', `${github}/repos/${username}/${repoName}/commits`)
   req.send();
 }
-`${github}/users/${username}/repos`
 
-function displayCommits() {
-  const commits = JSON.parse(this.responseText);
-  const commitsList =
-  `<ul>
-  ${commits.map(commit =>
-    '<li><strong>' +
-    commit.author.login +
-    '</strong> - ' +
-    commit.author.name +
-    ' - ' +
-    commit.commit.message +
-    '</li>'
-    )
-    .join('')}</ul>`
-  document.getElementById('details').innerHTML = commitsList;
+function displayRepositories(data) {
+  $('#full_name').html(data.full_name)
+  $('#url').html(data.url)
 }
+
+// function getCommits() {
+//   getRepositories().
+// }
