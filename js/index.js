@@ -1,59 +1,65 @@
-// your code here
-const githubAPI ='https://api.github.com'
+const githubAPI = "https://api.github.com"
+const detailsDiv = document.querySelector('#details')
 
-
+// this i understood
 function getRepositories() {
-  const username = document.querySelector('input#username').value
-  const req = new XMLHttpRequest()
-  req.addEventListener('load', displayRepositories)
-  req.open('GET', `${githubAPI}/users/${username}/repos`)
-  req.send()
+   const username = document.querySelector('input#username').value
+   const req = new XMLHttpRequest()
+   req.addEventListener('load', displayRepositories)
+   req.open('GET', `${githubAPI}/users/${username}/repos`)
+   req.send()
 }
 
-// Add a link to each repository that calls a getCommits function on click and, when the request is complete, calls a displayCommits function that fills the details div with a list of commits for that repository.
 
+// this creates a link whose sole purpose is to call a javascript function the function will need a variable data-username and data-repository, onclick will launch the function called 'get commits'
+// <a href="javascript:void(0)" data-username=${r.owner.login} data-repository=${r.name} onClick=getCommits(this)>Get Commits</a>
 
 function displayRepositories() {
    const repos = JSON.parse(this.responseText)
    const repoList = `${repos.map(r =>
       `<li>
-         https://github.com/${r.full_name} ||
-         <a href="#" data-username=${r.owner.login} data-repository=${r.name} onClick=getCommits(this)>Get Commits</a> ||
-         <a href="#" data-username=${r.owner.login} data-repository=${r.name} onClick=getBranches(this)>Get Branches</a>
+         https://github.com/${r.full_name} *
+         <a href="javascript:void(0)" data-username=${r.owner.login} data-repository=${r.name} onClick=getCommits(this)>Get Commits</a> *
+         <a href="javascript:void(0)" data-username=${r.owner.login} data-repository=${r.name} onClick=getBranches(this)>Get Branches</a>
       </li>`).join('')}`
 
-   const repoDiv = document.querySelector('ul#repositories')
+   const repoDiv = document.querySelector('#repositories')
    repoDiv.innerHTML = repoList
 }
 
+function getCommits(repo) {
+   const username = repo.dataset.username
+   const repoName = repo.dataset.repository
+   const req = new XMLHttpRequest()
+   req.addEventListener('load', displayCommits)
+   req.open('GET', `${githubAPI}/repos/${username}/${repoName}/commits`)
+   req.send()
+}
 
-// function getCommits(el) {
-//   const name = el.dataset.repository
-//   const username = el.dataset.username
-//   const req = new XMLHttpRequest()
-//   req.addEventListener('load', displayCommits)
-//   req.open('GET', `${github}/repos/${username}/${name}/commits`)
-//   debugger
-//   req.send();
-//   debugger
-// }
+function displayCommits() {
+   const commits = JSON.parse(this.responseText)
+   debugger
+   const commitsList = `${commits.map(c =>
+      `<li>
+         ${c.commit.author.name} - AKA ${c.author.login} - ${c.commit.message}
+      </li>`).join('')}`
+   detailsDiv.innerHTML = commitsList
+}
 
-function getCommits(repo){
+function getBranches(repo){
   const username = repo.dataset.username
   const repoName = repo.dataset.repository
-  const xhr = new XMLHttpRequest()
-  req.addEventListener('load', displayCommits)
-  req.open('GET', uri)
+  const req = new XMLHttpRequest()
+  req.addEventListener('load', displayBranches)
+  req.open('GET', `${githubAPI}/repos/${username}/${repoName}/branches`)
   req.send()
 }
 
-function displayCommits(el) {
-  const commits = JSON.parse(this.responseText);
-  const commitList = commits.map(commit => c
- `<li>
-    ${c.commit.author.name} - AKA ${c.author.login} - ${c.commit.message}
-  </li>`).join('')}`
-detailsDiv.innerHTML = commitsList
-    </li>`).join('')
-  document.getElementById('repositories').innerHTML = repoList;
+function displayBranches() {
+   const branches = JSON.parse(this.responseText)
+   const branchesList = `${branches.map(b =>
+      `<li>
+         ${b.name}
+      </li>`).join('')}`
+   detailsDiv.innerHTML = branchesList
 }
