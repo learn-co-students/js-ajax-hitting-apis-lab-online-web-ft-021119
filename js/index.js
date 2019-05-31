@@ -8,10 +8,6 @@ const repositories = document.getElementById('repositories')
 const details = document.getElementById('details')
 
 
-
-
-
-
 function getRepositories() {
   const request = new XMLHttpRequest();
   request.addEventListener('load', displayRepositories);
@@ -50,7 +46,7 @@ function displayRepositories() {
         r.full_name +
         '" onclick="getCommits(this)">Get Commits</a>' +  ' - <a href="#" data-repo="' +
           r.full_name + '" onclick="getBranches(this)">Get Branches</a>' + '</li>').join('')}</ul>`;
-        document.getElementById('repositories').innerHTML = repoList;
+        repositories.innerHTML = repoList;
       }
 
 
@@ -63,7 +59,7 @@ function displayCommits() {
         c.author.login +
         c.commit.message + '</li>')
     .join('')}</ul>`;
-  document.getElementById('details').innerHTML = commitsList;
+  details.innerHTML = commitsList;
 }
 
 function displayBranches() {
@@ -74,5 +70,5 @@ function displayBranches() {
     .map(b => '<li>' +
         b.name + '</li>')
     .join('')}</ul>`;
-  document.getElementById('details').innerHTML = branchesList;
+  details.innerHTML = branchesList;
 }
