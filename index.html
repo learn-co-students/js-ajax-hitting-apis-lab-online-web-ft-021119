@@ -20,9 +20,13 @@
         margin-right: 20px;
       }
     </style>
+      <!-- Content-Security-Policy: default-src 'self'; script-src 'sha256-4Su6mBWzEIFnH4pAGMOuaeBrstwJN4Z3pq/s1Kn4/KQ=' -->
+      <meta http-equiv="Content-Security-Policy" default-src="self">
   </head>
+<!-- "sha256-cEMGmkBxNFSwHSwH1dEj9+vcBDNvbdA/DYcpIIWGb3E=" style-src="self" -->
 
   <body>
+
     <main id="main">
       <form onsubmit="getRepositories();return false;">
         <input type="text" id="username"><br>
@@ -32,6 +36,9 @@
     <div class="flexbox-container">
       <div>
         <h3>Repositories</h3>
+        <!-- <a href="#" onclick="getRepositories()">Get Repositories</a> -->
+
+
         <div id="repositories"></div>
       </div>
       <div>
