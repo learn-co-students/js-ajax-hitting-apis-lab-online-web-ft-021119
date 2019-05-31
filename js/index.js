@@ -14,38 +14,46 @@ function getRepositories() {
 
 
 function displayRepositories() {
-  const repos = JSON.parse(this.responseText);
-  const repoList = repos.map(repo =>
-    `<li>
-        <a href='${repo.url}'>${repo.full_name}</a>
-        <h3>
-          <a href='${repo.commits_url}'
-          data-repository='${repo.full_name}'
-          data-username='${repo.owner.login}'
-          onclick='getCommits(this)'>Get Commits
-        </h3>
-    </li>`).join('')
-  document.getElementById('repositories').innerHTML = repoList;
+   const repos = JSON.parse(this.responseText)
+   const repoList = `${repos.map(r =>
+      `<li>
+         https://github.com/${r.full_name} ||
+         <a href="#" data-username=${r.owner.login} data-repository=${r.name} onClick=getCommits(this)>Get Commits</a> ||
+         <a href="#" data-username=${r.owner.login} data-repository=${r.name} onClick=getBranches(this)>Get Branches</a>
+      </li>`).join('')}`
+
+   const repoDiv = document.querySelector('ul#repositories')
+   repoDiv.innerHTML = repoList
 }
 
-function getCommits(el) {
-  const name = el.dataset.repository
-  const username = el.dataset.username
-  const req = new XMLHttpRequest()
+
+// function getCommits(el) {
+//   const name = el.dataset.repository
+//   const username = el.dataset.username
+//   const req = new XMLHttpRequest()
+//   req.addEventListener('load', displayCommits)
+//   req.open('GET', `${github}/repos/${username}/${name}/commits`)
+//   debugger
+//   req.send();
+//   debugger
+// }
+
+function getCommits(repo){
+  const username = repo.dataset.username
+  const repoName = repo.dataset.repository
+  const xhr = new XMLHttpRequest()
   req.addEventListener('load', displayCommits)
-  req.open('GET', `${github}/repos/${username}/${name}/commits`)
-  debugger
-  req.send();
-  debugger
+  req.open('GET', uri)
+  req.send()
 }
 
 function displayCommits(el) {
-  debugger
   const commits = JSON.parse(this.responseText);
-  const commitList = commits.map(commit =>
-    `<li>
-        <h3><a href="${repo.url}">${repo.full_name}</a></h3>
-        <h3><a href="${repo.commits_url}">Get Commits</h3>
+  const commitList = commits.map(commit => c
+ `<li>
+    ${c.commit.author.name} - AKA ${c.author.login} - ${c.commit.message}
+  </li>`).join('')}`
+detailsDiv.innerHTML = commitsList
     </li>`).join('')
   document.getElementById('repositories').innerHTML = repoList;
 }
