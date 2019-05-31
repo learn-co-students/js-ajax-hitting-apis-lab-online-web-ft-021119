@@ -1,5 +1,5 @@
 // your code here
-const githubAPI = "https://api.github.com"
+const githubAPI ='https://api.github.com'
 
 
 function getRepositories() {
@@ -14,27 +14,32 @@ function getRepositories() {
 
 
 function displayRepositories() {
-  debugger
   const repos = JSON.parse(this.responseText);
   const repoList = repos.map(repo =>
     `<li>
-        <h3><a href="${repo.url}">${repo.full_name}</a></h3>
-        <h3><a href="${repo.commits_url}">Get Commits</h3>
+        <a href='${repo.url}'>${repo.full_name}</a>
+        <h3>
+          <a href='${repo.commits_url}'
+          data-repository='${repo.full_name}'
+          data-username='${repo.owner.login}'
+          onclick='getCommits(this)'>Get Commits
+        </h3>
     </li>`).join('')
   document.getElementById('repositories').innerHTML = repoList;
 }
 
 function getCommits(el) {
-  debugger
-  const name = repo.dataset.username
-  const repoName = repo.dataset.repository
+  const name = el.dataset.repository
+  const username = el.dataset.username
   const req = new XMLHttpRequest()
   req.addEventListener('load', displayCommits)
-  req.open('GET', `${github}/repos/${username}/${repoName}/commits`)
+  req.open('GET', `${github}/repos/${username}/${name}/commits`)
+  debugger
   req.send();
+  debugger
 }
 
-function displayCommits(this) {
+function displayCommits(el) {
   debugger
   const commits = JSON.parse(this.responseText);
   const commitList = commits.map(commit =>
